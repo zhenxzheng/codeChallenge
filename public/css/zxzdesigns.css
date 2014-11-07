@@ -62,7 +62,7 @@ a{
 	margin-left:auto;
 	margin-right:auto;
 	overflow:hidden !important;
-	padding-top:3.3em;
+	padding-top:1em;
 	*zoom:1;
 }
 img{
@@ -391,7 +391,7 @@ p.demoNote{
 	    display: flex;
 	}
 	.container{
-		padding-top:3.3em;
+		padding-top:1em;
 	}
 	.grid-half{
 		width:45.4545455%;
@@ -486,7 +486,7 @@ p.demoNote{
 form input,
 form textarea{
 	width:100%;
-	padding:7px 35px 7px 20px;
+	padding:7px 20px 7px 20px;
 	font-size:1em;
 	line-height:1.3em;
 	border: solid gray 1px;
@@ -690,11 +690,7 @@ left: 0;
     display: -webkit-flex;
     display: flex;
 }
-#Canvas{
-	background: #eee;
+#Q2array, #Q2newArray{
+	max-height:4em;
+	overflow-y:scroll;
 }
-div.bar {
-    position: absolute;
-    width: 20px;
-    height: 75px;   /* We'll override this later */
-    background-color: teal;

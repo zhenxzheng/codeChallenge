@@ -1,26 +1,36 @@
-'use strict';
+'use strict'; //process.hrtime() node.js high resolution timer in nanoseconds
 /*
  *
  *	Q1 Check for Overlapping bewteen 2 Rectangles
  *
  */
 function checkOverlap(rect1, rect2){
-	var A1x,A1y,A3x,A3y;	//the two essential points of Rectangle 1
-	var B1x,B1y,B3x,B3y;	//the two essential points of Rectangle 2
+	var start = new Date().getTime();
+	console.time("overlap");
 
-	A1x = parseInt($(rect1).attr("x"));
-	A1y = parseInt($(rect1).attr("y"));
-	A3x = parseInt($(rect1).attr("x")) + parseInt($(rect1).attr("width"));
-	A3y = parseInt($(rect1).attr("y")) + parseInt($(rect1).attr("height"));
+		var A1x,A1y,A3x,A3y;	//the two essential points of Rectangle 1
+		var B1x,B1y,B3x,B3y;	//the two essential points of Rectangle 2
 
-	B1x = parseInt($(rect2).attr("x"));
-	B1y = parseInt($(rect2).attr("y"));
-	B3x = parseInt($(rect2).attr("x")) + parseInt($(rect2).attr("width"));
-	B3y = parseInt($(rect2).attr("y")) + parseInt($(rect2).attr("height"));
+		A1x = parseInt($(rect1).attr("x"));
+		A1y = parseInt($(rect1).attr("y"));
+		A3x = parseInt($(rect1).attr("x")) + parseInt($(rect1).attr("width"));
+		A3y = parseInt($(rect1).attr("y")) + parseInt($(rect1).attr("height"));
 
-	if(!(A1x>B3x||A3x<B1x||A3y<B1y||A1y>B3y)) $('#overlap').removeClass().addClass("red large").text("Overlapping");
-	else {$('#overlap').removeClass().addClass("green large").text("No overlapping");}
+		B1x = parseInt($(rect2).attr("x"));
+		B1y = parseInt($(rect2).attr("y"));
+		B3x = parseInt($(rect2).attr("x")) + parseInt($(rect2).attr("width"));
+		B3y = parseInt($(rect2).attr("y")) + parseInt($(rect2).attr("height"));
+
+		if(!(A1x>B3x||A3x<B1x||A3y<B1y||A1y>B3y)) $('#overlap').removeClass().addClass("red large").text("Overlapping");
+		else {$('#overlap').removeClass().addClass("green large").text("No overlapping");}
+	
+	console.timeEnd("overlap");
+	var end = new Date().getTime();
+	var time = end - start;
+	if (time==0) time="< 0";
+	$('#overlapTime').text(time);
 }
+
 
 /*
  *
@@ -28,19 +38,29 @@ function checkOverlap(rect1, rect2){
  *
  */
 function reorderArray(array){
-	var newArr = [];
-	// var N = array[array.length-1].split("_");
-	// N = parseInt(N[1]);
-	// var nA = array.length/N;
+	var start = new Date().getTime();
+	console.time("reorderArray");
+		
+		var newArr = [];
+		// var N = array[array.length-1].split("_");
+		// N = parseInt(N[1]);
+		// var nA = array.length/N;
 
-	for (var i=0; i<N; i++){
-		for (var j=0; j<nA;j++){
-			var index = j*N+i;
-			newArr.push(array[index])
+		for (var i=0; i<N; i++){
+			for (var j=0; j<nA;j++){
+				var index = j*N+i;
+				newArr.push(array[index])
+			}
 		}
-	}
-	$('#Q2newArray').text("["+newArr+"]");
+		$('#Q2newArray').text("["+newArr+"]");
+
+	console.timeEnd("reorderArray");
+	var end = new Date().getTime();
+	var time = end - start;
+	if (time==0) time="< 0";
+	$('#reorderTime').text(time);
 }
+
 
 /*
  *
@@ -48,23 +68,36 @@ function reorderArray(array){
  *
  */
 function findConcatenation(wordArray){
-	console.log(wordArray);
-	var match;
-	var highest=0;
-	var concatenation=[];
+	var start = new Date().getTime();
+	console.time("concatenation");
 
-	wordArray.forEach(function(a){
-		var counter=0;
-		wordArray.forEach(function(b){
-			var word = new RegExp(b,"g");
-			match = a.match(b)
-			console.log(match);
-			if (match) counter=counter+1;
+		var match;
+		var highest=0;
+		var concatenation=[];
+
+		//make all the words RegEx pattern and find the highest match count
+		wordArray.forEach(function(a){
+			var counter=0;	//keep track of number of matches
+			wordArray.forEach(function(b){
+				var word = new RegExp(b,"g");
+				match = a.match(b);
+				if (match) counter=counter+1;
+			})
+			//update higher count and longest concatenation word
+			if(counter>highest){
+				highest=counter;
+				concatenation=[a];
+			}
+			//handle duplicates and save them as well
+			else if(counter==highest){
+				concatenation.push(a);
+			}
 		})
-		if(counter>highest){
-			highest=counter;
-			concatenation.push(a);
-		}
-	})
-	$('#concatenation').text("["+concatenation[concatenation.length-1]+"]");
+		$('#concatenation').text("["+concatenation.join(", ")+"]");
+
+	console.timeEnd("concatenation");
+	var end = new Date().getTime();
+	var time = end - start;
+	if (time==0) time="< 0";
+	$('#concatenationTime').text(time);
 }

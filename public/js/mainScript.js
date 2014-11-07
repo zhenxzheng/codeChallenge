@@ -9,6 +9,7 @@ var nA,N;
 var array=[];
 var wordArray=["hell", "hello", "foo", "hellobarfoo", "world", "foobar", "bar"];
 
+
 /*
  *
  *		Functions for Page Ready 
@@ -18,17 +19,20 @@ $(document).ready(function(){
 	initializePage();
 });
 
+
 /*
  *
- *		Button Click Function
+ *		Main Calling Functions
  *
  */
-// check overlap
+//	Q1-check overlap
 function overlapFunction(){
-	checkOverlap($('#rectangle1'),$('#rectangle2'));
+	if(Q1input()){
+		checkOverlap($('#rectangle1'),$('#rectangle2'));
+	}
 }
-// reorder array
-function ArrayFunction(){
+//	Q2-reorder array
+function arrayFunction(){
 	if (nA&&N){
 		reorderArray(array);
 	}
@@ -36,13 +40,36 @@ function ArrayFunction(){
 		$('#Q2newArray').text("[]");
 	}
 }
-// find concatenation
+//	Q3-find concatenation
 function concatenationFunction(){
 	findConcatenation(wordArray);
 }
 
+
+/*
+ *
+ *		Helper Functions
+ *
+ */
+function Q1input(){
+	if ($('#x1 input').val()==0 ||
+		$('#x2 input').val()==0 ||
+		$('#y1 input').val()==0 ||
+		$('#y2 input').val()==0 ||
+		$('#width1 input').val()==0 ||
+		$('#width2 input').val()==0 ||
+		$('#height1 input').val()==0 ||
+		$('#height2 input').val()==0){
+		return false;
+	}
+	else{
+		return true
+	}
+}
 // helper function to set up Array content for Q2
-function setupArray(nA,N){
+function setupArray(){
+	nA = parseInt($('#nA').val());
+	N = parseInt($('#N').val());
 	var data="";
 	var letter = "a";
 	array = [];
@@ -55,6 +82,15 @@ function setupArray(nA,N){
 	}
 	$('#Q2array').text("["+array+"]");
 }
+// helper function to set up word array for Q3
+function setupWordArray(){
+	var temp = $('#newArray').val();
+	var pattern = /[ "\.]+/g;
+	temp = temp.replace(pattern,"");
+	wordArray = temp.split(",");
+	$('#Q3array').text("["+wordArray.join(", ")+"]");
+}
+
 
 /*
  *
@@ -67,24 +103,24 @@ function initializePage(){
 	$('#rectangle1').css({"fill":"red","opacity":"0.5"});
 	$('#rectangle2').css({"fill":"green","opacity":"0.5"});
 
-	// input for rectangles
+	//	Q1
 	$('#x1 input').focusout(function(){
 		$('#rectangle1').attr("x",$(this).val());
 	});
 	$('#y1 input').focusout(function(){
 		$('#rectangle1').attr("y",$(this).val());
 	});
-	$('#x2 input').focusout(function(){
-		$('#rectangle2').attr("x",$(this).val());
-	});
-	$('#y2 input').focusout(function(){
-		$('#rectangle2').attr("y",$(this).val());
-	});
 	$('#width1 input').focusout(function(){
 		$('#rectangle1').attr("width",$(this).val());
 	});
 	$('#height1 input').focusout(function(){
 		$('#rectangle1').attr("height",$(this).val());
+	});
+	$('#x2 input').focusout(function(){
+		$('#rectangle2').attr("x",$(this).val());
+	});
+	$('#y2 input').focusout(function(){
+		$('#rectangle2').attr("y",$(this).val());
 	});
 	$('#width2 input').focusout(function(){
 		$('#rectangle2').attr("width",$(this).val());
@@ -93,27 +129,58 @@ function initializePage(){
 		$('#rectangle2').attr("height",$(this).val());
 	});
 
-
+	//	Q2
 	$('#nA').focusout(function(){
-		nA = parseInt($(this).val());
-		setupArray(nA,N);
+		setupArray();
 	})
 	$('#N').focusout(function(){
-		N = parseInt($(this).val());
-		setupArray(nA,N);
+		setupArray();
 	})
 
+	//	Q3
 	$('#newArray').attr("value", wordArray);
-	$('#newArray').focusout(function(){
-		var temp = $(this).val();
-		var pattern = /[ "\.]+/g;
-		temp = temp.replace(pattern,"");
-		var pattern = /,/g;
-		temp = temp.replace(pattern,", ")
-		wordArray = temp.split(",");
-		$('#Q3array').text("["+wordArray+"]");
-	})
+	$('#newArray').change(function(){
+		$('#concatenation').text("[]");
+		setupWordArray();
+	});
 }
+
+
+/*
+ *
+ *		Enter Press Listeners
+ *
+ */
+//	Q1
+$("#x1 input,#y1 input,#x2 input,#y2 input,#width1 input,#width2 input,#height1 input,#height2 input").keydown(function (e) {
+    if (e.keyCode == 13) {
+    	e.preventDefault();
+    	$(this).focusout();
+    	if (Q1input()){
+    		overlapFunction();
+    	}
+    	else{
+    		$('#overlap').empty();
+    	}
+    }
+});
+//	Q2
+$("#nA, #N").keydown(function (e) {
+    if (e.keyCode == 13) {
+    	e.preventDefault();
+		$(this).focusout();
+	    arrayFunction();
+    }
+});
+//	Q3
+$("#newArray").keydown(function (e) {
+    if (e.keyCode == 13) {
+    	e.preventDefault();
+    	$(this).blur();
+        concatenationFunction();
+        $(this).focus();
+    }
+});
 
 // function canvasSetup(nA, N){
 // 	$("#canvas").empty();

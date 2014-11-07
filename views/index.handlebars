@@ -26,7 +26,9 @@
     <div class="container">
       <section class="container" id="Q1">
       	<h1>Code Challenge</h1>
-
+        <p class="small note demoNote">
+          Note: Open console to see more precise calculated time. Press "Enter" while in an input box or click a buttons to start a event
+        </p>
         <p>1. Given two rectangles, check if they overlap. Please define and explain your rectangle definition</p>
         <svg>
           <rect id="rectangle1"/>
@@ -89,6 +91,7 @@
           </div>
           <p class="centerText">
             <span id="overlap"></span><br>
+            Time: <span id="overlapTime">0</span>ms<br>
             <a class="button" id="overlapBtn" href="javascript:overlapFunction();">Check Overlap</a>
           </p>
         </form>
@@ -110,8 +113,8 @@
             <input type="text" placeholder="N" id="N">
           </div>
           <p class="centerText">
-            <span id="reorderTime"></span><br>
-            <a class="button" href="javascript:ArrayFunction();">Reorder Array</a>
+            Time: <span id="reorderTime">0</span>ms<br>
+            <a class="button" href="javascript:arrayFunction();">Reorder Array</a>
           </p>
         </form>
       </section>
@@ -126,12 +129,12 @@
         </h2>
         <form>
           Enter new array, seperated by comma ","<br>
-            [hell, hello, foo, hellobarfoo, world, foobar, bar]
+            hell, hello, foo, hellobarfoo, world, foobar, bar
           <div class="center">
-            <input type="text" placeholder="Words array" id="newArray">
+            <input type="text" placeholder="Words array" id="newArray"></input>
           </div>
           <p class="centerText">
-            <span id="reorderTime"></span><br>
+            Time: <span id="concatenationTime">0</span>ms<br>
             <a class="button" href="javascript:concatenationFunction();">Concatenation</a>
           </p>
         </form>
@@ -140,7 +143,6 @@
   </div>
 
   <script src="https://code.jquery.com/jquery.js"></script>
-  <script src="js/bootstrap.js"></script>
   <script src="js/mainScript.js"></script>
 
 </body>
