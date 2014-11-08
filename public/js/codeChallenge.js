@@ -71,28 +71,32 @@ function findConcatenation(wordArray){
 	var start = new Date().getTime();
 	console.time("concatenation");
 
-		var match;
+		//sort from longest String to shortest
+		wordArray.sort(function(a, b){
+		  return b.length - a.length;
+		});
+
 		var highest=0;
 		var concatenation=[];
 
 		//make all the words RegEx pattern and find the highest match count
-		wordArray.forEach(function(a){
+		for(var i=0;i<wordArray.length;i++){
 			var counter=0;	//keep track of number of matches
-			wordArray.forEach(function(b){
-				var word = new RegExp(b,"g");
-				match = a.match(b);
+			for (var j=i;j<wordArray.length-1;j++){
+				var word = new RegExp(wordArray[j+1],"g");
+				var match = wordArray[i].match(word);
 				if (match) counter=counter+1;
-			})
+			}
 			//update higher count and longest concatenation word
 			if(counter>highest){
 				highest=counter;
-				concatenation=[a];
+				concatenation=[wordArray[i]];
 			}
 			//handle duplicates and save them as well
 			else if(counter==highest){
-				concatenation.push(a);
+				concatenation.push(wordArray[i]);
 			}
-		})
+		}
 		$('#concatenation').text("["+concatenation.join(", ")+"]");
 
 	console.timeEnd("concatenation");

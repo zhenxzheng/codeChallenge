@@ -4,7 +4,8 @@
  *	Essential Variables
  *
  */
-var h = $(window).height()
+var h = $(window).height();
+var w = $(window).width();
 var nA,N;
 var array=[];
 var wordArray=["hell", "hello", "foo", "hellobarfoo", "world", "foobar", "bar"];
@@ -98,7 +99,17 @@ function setupWordArray(){
  *
  */
 function initializePage(){
-	$('#main').css({"height":h, "opacity":"1"});
+	var h = $(window).height();
+	var w = $(window).width();
+  	$('#main').css("top",0);
+	$('#main').css("height",h);
+	$(window).resize(function(){
+			w =$(window).width();
+			h =$(window).height();
+		  	$('#main').css("top",0);
+			$('#main').css("height",h);
+	});
+	$('#main').css("opacity","1");
 	$('svg').css({"width":"100%","height":"24vw","background":"#777"});
 	$('#rectangle1').css({"fill":"red","opacity":"0.5"});
 	$('#rectangle2').css({"fill":"green","opacity":"0.5"});
